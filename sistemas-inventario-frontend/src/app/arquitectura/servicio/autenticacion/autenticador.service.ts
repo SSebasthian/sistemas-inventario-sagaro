@@ -5,8 +5,6 @@ import { Observable, tap } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { inicioSesionSolicitud } from '../../interface/inicioSesionSolicitud.interface';
 import { inicioSesionRespuesta } from '../../interface/inicioSesionRespuesta.interface';
-import { registroSolicitud } from '../../interface/registroSolicitud.interface';
-import { registroRespuesta } from '../../interface/registroRespuesta.interface';
 import { PerfilService } from './perfil.service';
 
 
@@ -39,14 +37,6 @@ export class AutenticadorService {
   // --------------------
   inicioSesion(data: inicioSesionSolicitud): Observable<inicioSesionRespuesta> {
     return this.http.post<inicioSesionRespuesta>(`${this.apiUrl}usuarios/inicio-sesion`, data);
-  }
-
-
-  // -----------------------
-  // REGISTRAR USUARIO -----
-  // -----------------------
-  registro(data: registroSolicitud): Observable<registroRespuesta> {
-    return this.http.post<registroRespuesta>(`${this.apiUrl}usuarios/registrar`, data);
   }
 
 

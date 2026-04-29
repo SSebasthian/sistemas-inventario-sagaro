@@ -54,53 +54,6 @@ public class UsuariosService {
     }
 
 
-    /// ////////////////////////////////////////
-    /// /// METODO PARA REGISTRAR USUARIO///////
-    /// ////////////////////////////////////////
-    public RegistroRespuesta registrar(RegistroSolicitud datos) {
-
-        // 1. Verificar que el usuario NO exista antes de registrar
-        Usuarios existente = usuariosRepository.findByUsuario(datos.getUsuario());
-        if (existente != null) {
-            return new RegistroRespuesta("El Usuario Ya Existe", null, null, null);
-        }
-
-        // 2. Asignar por defecto el rol NORMAL (id = 2)
-        Rol rolAsignado;
-
-        if (datos.getRolId() != null) {
-            // Si viene rolId en la solicitud, usar ese
-            rolAsignado = rolRepository.findById(datos.getRolId()).orElse(null);
-            if (rolAsignado == null) {
-                return new RegistroRespuesta("El Rol con ID " + datos.getRolId() + " No Existe", null, null, null);
-            }
-        } else {
-            // Si no viene rolId, usar el rol NORMAL (id=2) por defecto
-            rolAsignado = rolRepository.findById(2L).orElse(null);
-            if (rolAsignado == null) {
-                return new RegistroRespuesta("El Rol NORMAL (id=2) No Existe", null, null, null);
-            }
-        }
-
-        // 3. Crear usuario nuevo
-        Usuarios nuevo = new Usuarios();
-        nuevo.setUsuario(datos.getUsuario());
-        nuevo.setNombre(datos.getNombre());
-        // Se encripta la contraseña
-        nuevo.setClave(codificarClave.encode(datos.getClave()));
-        nuevo.setActivo(true);
-        nuevo.setRol(rolAsignado);
-
-        usuariosRepository.save(nuevo);
-
-        // 4. Respuesta de éxito
-        return new RegistroRespuesta(
-                "Usuario Registrado Correctamente",
-                nuevo.getUsuario(),
-                nuevo.getNombre(),
-                nuevo.getRol().getNombre()
-        );
-    }
 
     /// ////////////////////////////////////////
     /// ////// METODO PARA INICIAR SESION///////

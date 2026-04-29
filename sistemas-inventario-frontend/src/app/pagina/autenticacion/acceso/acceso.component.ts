@@ -2,9 +2,9 @@ import { FormsModule } from '@angular/forms';
 import { AutenticadorService } from '../../../arquitectura/servicio/autenticacion/autenticador.service';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MatIconModule} from '@angular/material/icon'
+import { MatIconModule } from '@angular/material/icon'
 import { Router } from '@angular/router';
-import { RouterLink, RouterModule } from "@angular/router";
+import { RouterModule } from "@angular/router";
 import { inicioSesionSolicitud } from './../../../arquitectura/interface/inicioSesionSolicitud.interface';
 import { inicioSesionRespuesta } from './../../../arquitectura/interface/inicioSesionRespuesta.interface';
 import { NotificacionSnackbarService } from '../../../arquitectura/servicio/notificacion/notificacion-snackbar.service';
@@ -13,7 +13,7 @@ import { NotificacionSnackbarService } from '../../../arquitectura/servicio/noti
 
 @Component({
   selector: 'app-acceso',
-  imports: [MatIconModule, RouterLink, RouterModule, FormsModule, CommonModule],
+  imports: [MatIconModule, RouterModule, FormsModule, CommonModule],
   templateUrl: './acceso.component.html',
   styleUrl: './acceso.component.css'
 })
@@ -59,16 +59,16 @@ export class AccesoComponent {
     const datos: inicioSesionSolicitud = {
       usuario: this.usuario,
       clave: this.clave
-  };
+    };
 
-  // Llamamos al servicio autenticadorService.iniciarSesion() {
-  // Este devuelve un Observable, así que usamos subscribe() para recibir la respuesta
-  this.autenticadorService.inicioSesion(datos).subscribe({
-    
-    // Si el backend responde correctamente (200 OK)
-    next: (respuesta: inicioSesionRespuesta) => {
+    // Llamamos al servicio autenticadorService.iniciarSesion() {
+    // Este devuelve un Observable, así que usamos subscribe() para recibir la respuesta
+    this.autenticadorService.inicioSesion(datos).subscribe({
 
-      // Verificar si el login fue exitoso por el mensaje del backend
+      // Si el backend responde correctamente (200 OK)
+      next: (respuesta: inicioSesionRespuesta) => {
+
+        // Verificar si el login fue exitoso por el mensaje del backend
         if (respuesta.mensaje === 'Inicio de Sesion Exitoso!!!') {
           // Notificación de éxito
           this.notificacionSnackbarService.success(
@@ -111,5 +111,5 @@ export class AccesoComponent {
     this.mostrarClave = !this.mostrarClave;
   }
 
-  
+
 }

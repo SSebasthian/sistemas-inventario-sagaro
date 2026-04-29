@@ -39,6 +39,7 @@ export class NotificacionComponent implements OnInit{
       }, this.data.duration);
     }
   }
+  
 
   dismiss() {
     this.notificacionSnackbar.dismiss();

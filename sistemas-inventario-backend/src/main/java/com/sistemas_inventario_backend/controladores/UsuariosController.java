@@ -31,31 +31,6 @@ public class UsuariosController {
         this.permisosService = permisosService;
     }
 
-    // Crear usuario (POST /usuarios)
-    @PostMapping
-    public Usuarios crearUsuario(@RequestBody Usuarios usuario) {
-        return usuariosService.crear(usuario);
-    }
-
-    // Buscar por ID (GET /usuarios/{id})
-    @GetMapping("/{id}")
-    public Usuarios buscarPorId(@PathVariable Long id) {
-        return usuariosService.buscarPorId(id);
-    }
-
-    // Buscar usuario por nombre (GET /usuarios/buscar/{usuario})
-    @GetMapping("/buscar/{usuario}")
-    public Usuarios buscarPorUsuario(@PathVariable String usuario) {
-        return usuariosService.buscarPorUsuario(usuario);
-    }
-
-
-    //REGISTRAR USUARIO (POST /usuarios/registrar)
-    @PostMapping("/registrar")
-    public RegistroRespuesta registrar(@RequestBody RegistroSolicitud usuario) {
-        return usuariosService.registrar(usuario);
-    }
-
 
     //INICIAR SESION (POST /usuarios/inicio-sesion)
     @PostMapping("/inicio-sesion")
@@ -147,47 +122,4 @@ public class UsuariosController {
         return usuariosService.buscarUsuarioPorRol(rolId);
     }
 
-    //////////////////////////////////
-    //////////// PERMISO /////////////
-    //////////////////////////////////
-
 }
-
-
-/// //////////////////////////////////////////////////////////////////////////////
-/// /////////////////////// COMO PROBAR EN POSTMAN  //////////////////////////////
-/// //////////////////////////////////////////////////////////////////////////////
-
-// 1 . REGISTRAR Un Usuario
-//     Metodo: POST
-//     URL: http://localhost:8080/usuarios/registrar
-//     Body -> raw -> JSON
-//        {
-//           "usuario": "admin",
-//           "nombre": "Administrador",
-//           "clave": "1234"
-//       }
-
-
-// 2. INICIAR SESION USUARIO
-//    Metodo: POST
-//    URL: http://localhost:8080/usuarios/inicio-sesion
-//     Body -> raw -> JSON
-//      {
-//         "usuario": "prueba",
-//         "nombre": "Esta Prueba",
-//      }
-
-
-// 3. Buscar Un Usuarios Por Usuario
-//    Metodo: GET
-//    URL: http://localhost:8080/usuarios/perfil/admin
-
-
-//CORREGIR
-
-// 3. Listar Todos Los Usuarios
-//    Metodo: GET
-//     URL: http://localhost:8080/usuarios
-
-
