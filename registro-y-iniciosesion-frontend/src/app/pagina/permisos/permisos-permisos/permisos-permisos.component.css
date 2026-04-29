@@ -1,0 +1,456 @@
+.permiso-dialog {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.cabezera {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 20px;
+    border: 1px solid #c4b9b9;
+}
+
+.titulo {
+    display: flex;
+    align-items: center;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.titulo h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #595959;
+}
+
+.titulo mat-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+    color: #595959;
+}
+
+/* LISTAR PERMISOS */
+
+.listar-permisos {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+.listar-permisos .lista {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.listar-permisos .lista .info{
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.listar-permisos .lista .info .campo {
+    display: flex;
+    flex-direction: column;
+}
+.listar-permisos .lista .info  .label {
+    justify-self: start;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: #393e7f;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    width: fit-content;
+}
+
+.listar-permisos .lista .info  .valor {
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 500;
+    color: #2f2f2f;
+    margin-left: 5px;
+}
+
+.listar-permisos .item {
+    display: grid;
+    grid-template-columns: 2fr 1fr auto;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #c4b9b9;
+    border-radius: 8px;
+}
+
+.listar-permisos .item .nombre {
+    font-weight: 600;
+    padding-left: 10px;
+}
+
+.listar-permisos .item .cantidad {
+    justify-self: start;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 3px 12px;
+    border-radius: 8px;
+    background: #e6f4ea;
+    color: #2e7d32;
+    font-size: 13px;
+    font-weight: 500;
+    width: fit-content;
+    margin-left: -30px;
+    cursor: pointer;
+}
+
+.listar-permisos .item .cantidad .permiso-cantidad {
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.listar-permisos .acciones {
+    display: flex;
+    gap: 5px;
+}
+
+.listar-permisos .acciones a {
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.listar-permisos .acciones .editar {
+    background: #393e7f;
+}
+
+.listar-permisos .acciones .editar:hover {
+    background: #1f2148;
+}
+
+.listar-permisos .acciones .eliminar {
+    background: #c62828;
+}
+
+.listar-permisos .acciones .eliminar:hover {
+    background: #681414;
+}
+
+/*SCROLL*/
+
+.listar-permisos .lista {
+    max-height: 320px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* opcional: estilo bonito del scroll */
+.listar-permisos .lista::-webkit-scrollbar {
+    width: 6px;
+}
+
+.listar-permisos .lista::-webkit-scrollbar-thumb {
+    background: #c5c5c5;
+    border-radius: 10px;
+}
+
+.listar-permisos .lista::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+
+/*EDITAR ROL*/
+
+
+.editar-permiso {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.editar-permiso .form-grid,
+.crear-permiso .form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+
+
+/* ACCION BOTONES */
+
+.acciones-permisos {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 0 0 20px 0;
+    flex-wrap: wrap;
+}
+
+.acciones-permisos a {
+    background: #393e7f;
+    color: white;
+    border: none;
+    padding: 10px 13px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.acciones-permisos a:hover {
+    background: #1f2148;
+}
+
+.buscador {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 200px;
+    flex-shrink: 0;
+}
+
+.buscador input {
+    width: 100%;
+    height: 40px;
+    padding: 0 12px 0 35px;
+    border: 1px solid #a8a9c0;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+}
+
+.buscador input:focus {
+    border-color: #393e7f;
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(57, 62, 127, 0.1);
+}
+
+.buscador .icono {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #393e7f;
+}
+
+.buscador .icono mat-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+}
+
+
+
+/* VER ROLES POR USUARIO */
+
+
+.usuarioxpermiso {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 15px;
+    max-height: 260px;
+    overflow-y: auto;
+    padding-right: 5px;
+    
+}
+
+.usuarioxpermiso::-webkit-scrollbar {
+    width: 6px;
+}
+
+.usuarioxpermiso::-webkit-scrollbar-thumb {
+    background: #c5c5c5;
+    border-radius: 10px;
+}
+
+.usuarioxpermiso::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+.usuarioxpermiso .usuario-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #c4b9b9;
+    border-radius: 8px;
+}
+.usuarioxpermiso .info {
+    flex: 1;
+    display: flex;
+    justify-content: center;  
+    align-items: center; 
+}
+
+.usuarioxpermiso .detalles {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;     
+    text-align: center;
+}
+.usuarioxpermiso .nombre {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.usuarioxpermiso .nombre mat-icon {
+    color: #393e7f;
+    width: 25px;
+    height: 25px;
+    font-size: 25px;
+}
+
+.usuarioxpermiso .cantidad-usuarios {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #2e7d32;
+    background: #e6f4ea;
+    padding: 3px 18px;
+    border-radius: 12px;
+    width: fit-content;
+}
+
+.usuarioxpermiso .permiso-info {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #7a6a6a;
+    background: #e0dddd;
+    padding: 3px 18px;
+    border-radius: 12px;
+    width: fit-content;
+} 
+
+.sin-usuarios {
+    width: 470px;
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px;
+    color: #777;
+}
+
+.error-mensaje {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #fff5f5;
+    color: #dc2626;
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 10px;
+    border: 1px solid #fecaca;
+    border-left: 4px solid #dc2626;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.error-mensaje mat-icon {
+    width: 22px;
+    height: 22px;
+    font-size: 22px;
+    color: #dc2626;
+}
+
+
+/* Estilos generales del modal */
+.mostrar-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.425);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.mostrar-modal .modal {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    width: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.418);
+    text-align: center;
+}
+
+.mostrar-modal .modal h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #595959;
+}
+
+.mostrar-modal .modal h2 strong {
+    font-size: 20px;
+    color: #c23232d5;
+}
+
+.mostrar-modal .modal hr{
+    margin: 15px 0;
+}
+
+.mostrar-modal .modal-botones {
+    display: flex;
+    justify-content: space-between;
+}
+
+.mostrar-modal .cancel-button,
+.mostrar-modal .confirm-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.mostrar-modal .cancel-button:hover,
+.mostrar-modal .confirm-button:hover {
+    opacity: 0.9;
+}
+
+.mostrar-modal .cancel-button {
+    background: #393e7f;
+}
+
+.mostrar-modal .confirm-button {
+    background: #c23232d5;
+}

@@ -1,0 +1,118 @@
+<div class="perfil-dialog">
+
+    <div class="cabezera">
+        <div class="titulo">
+            <mat-icon>edit</mat-icon>
+            <h2>Editar Perfil</h2>
+        </div>
+    </div>
+
+    <div class="body" *ngIf="!modoPassword">
+        <div class="form-grid">
+
+            <mat-form-field appearance="outline">
+                <mat-label>Usuario</mat-label>
+                <input matInput [value]="usuario.usuario" disabled>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Rol</mat-label>
+                <input matInput [value]="usuario.rol.nombre" disabled>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput [(ngModel)]="usuario.nombre" [disabled]="!editando">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Contraseña</mat-label>
+                <input matInput value="********" [disabled]="!editando" readonly>
+                <a matSuffix class="boton-clave" [hidden]="!editando" (click)="abrirPassword()">
+                    <mat-icon>edit</mat-icon>
+                </a>
+            </mat-form-field>
+        </div>
+    </div>
+
+
+
+    <div *ngIf="modoPassword">
+        <mat-dialog-content class="form-grid">
+
+            <mat-form-field appearance="outline">
+                <mat-label>Usuario</mat-label>
+                <input matInput [value]="usuario.usuario" disabled>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Contraseña actual</mat-label>
+                <input matInput [(ngModel)]="claveActual" [type]="verPasswordActual ? 'text' : 'password'">
+                <a class="ocultarmostrar-clave" matSuffix type="button"
+                    (click)="verPasswordActual = !verPasswordActual">
+                    <mat-icon> {{ verPasswordActual ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </a>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Nueva contraseña</mat-label>
+                <input matInput [(ngModel)]="claveNueva" [type]="verPasswordNueva  ? 'text' : 'password'">
+                <a class="ocultarmostrar-clave" matSuffix type="button"
+                    (click)="verPasswordNueva  = !verPasswordNueva ">
+                    <mat-icon> {{ verPasswordNueva ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </a>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Confirmar contraseña</mat-label>
+                <input matInput [(ngModel)]="claveConfirmar" [type]="verPasswordNueva  ? 'text' : 'password'">
+                <a class="ocultarmostrar-clave" matSuffix type="button"
+                    (click)="verPasswordNueva  = !verPasswordNueva ">
+                    <mat-icon> {{ verPasswordNueva ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </a>
+            </mat-form-field>
+            <p *ngIf="mensajeclave" class="mensaje">
+                {{ mensajeclave }}
+            </p>
+
+        </mat-dialog-content>
+    </div>
+
+
+    <div class="acciones">
+
+        <!-- PERFIL -->
+        <ng-container *ngIf="!modoPassword">
+
+            <!-- BOTÓN EDITAR -->
+            <a *ngIf="!editando" (click)="editarPerfil()">
+                <mat-icon>edit_note</mat-icon>
+                Editar
+            </a>
+
+            <!-- BOTÓN GUARDAR -->
+            <a *ngIf="editando" (click)="guardarPerfil()">
+                <mat-icon>how_to_reg</mat-icon>
+                Guardar
+            </a>
+
+        </ng-container>
+
+        <!-- PASSWORD -->
+        <a *ngIf="modoPassword" (click)="guardarPassword()">
+            <mat-icon>how_to_reg</mat-icon>
+            Guardar contraseña
+        </a>
+
+        <!-- CANCELAR -->
+        <a (click)="accionCancelar()">
+            <mat-icon>
+                {{ (!editando && !modoPassword) ? 'close' : 'cancel' }}
+            </mat-icon>
+
+            {{ (!editando && !modoPassword) ? 'Cerrar' : 'Cancelar' }}
+        </a>
+
+    </div>
+
+</div>

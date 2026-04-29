@@ -1,0 +1,232 @@
+<div class="usuarios-dialog">
+    <div class="cabezera">
+        <div class="titulo">
+            <mat-icon>people</mat-icon>
+            <h2>
+                {{
+                modoCrearUsuario ? 'Crear usuario' :
+                modoPassword ? 'Editar contraseña' :
+                editando ? 'Editar usuario' :
+                'Usuarios'
+                }}
+            </h2>
+        </div>
+    </div>
+
+
+
+    <div class="listar-usuarios">
+
+        <!-- LISTA DE USUARIOS -->
+        <div class="lista" *ngIf="!editando && !modoPassword && !modoCrearUsuario">
+            <div class="usuario-item" *ngFor="let usuario of usuariosFiltrados">
+
+                <div class="info">
+                    <span class="nombre">{{ usuario.nombre }}</span>
+                    <span class="usuario">{{ usuario.usuario }}</span>
+                    <span class="rol">{{ usuario.rol.nombre }}</span>
+                </div>
+
+                <div class="estado">
+                    <span [class.activo]="usuario.activo" [class.inactivo]="!usuario.activo">
+                        {{ usuario.activo ? 'Activo' : 'Inactivo' }}
+                    </span>
+                </div>
+
+                <div class="acciones">
+                     <!-- EDITAR - Solo si tiene permiso -->
+                    <a class="editar" (click)="editarUsuario(usuario)" *ngIf="permisoModuloService.puede('usuarios', 'editar')">
+                        <mat-icon>edit</mat-icon>
+                    </a>
+
+                    <a class="eliminar" (click)="confirmarEliminacionUsuario(usuario)" *ngIf="permisoModuloService.puede('usuarios', 'eliminar')">
+                        <mat-icon>delete</mat-icon>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <!-- EDITAR USUARIO -->
+        <div class="editar-usuario" *ngIf="editando && !modoPassword">
+            <div class="form-grid">
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Usuario</mat-label>
+                    <input matInput [(ngModel)]="usuarioSeleccionado.usuario">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Rol</mat-label>
+                    <mat-select [(ngModel)]="usuarioSeleccionado.rol" [compareWith]="compararRoles">
+                        <mat-option *ngFor="let rol of roles" [value]="rol">
+                            {{ rol.nombre }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput [(ngModel)]="usuarioSeleccionado.nombre">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput value="********" [disabled]="!editando" readonly>
+                    <a matSuffix class="boton-clave" [hidden]="!editando" (click)="abrirPassword()">
+                        <mat-icon>edit</mat-icon>
+                    </a>
+                </mat-form-field>
+
+                <div class="toggle-activo">
+
+                    <span>Estado del usuario</span>
+
+                    <mat-slide-toggle [(ngModel)]="usuarioSeleccionado.activo">
+                        {{ usuarioSeleccionado.activo ? 'Activo' : 'Inactivo' }}
+                    </mat-slide-toggle>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- CAMBIO DE CONTRASEÑA -->
+
+        <div class="editar-usuario-clave" *ngIf="modoPassword">
+            <mat-dialog-content class="form-grid">
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Usuario</mat-label>
+                    <input matInput [value]="usuarioSeleccionado.usuario" disabled>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput [(ngModel)]="usuarioSeleccionado.nombre" disabled>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Nueva contraseña</mat-label>
+                    <input matInput [(ngModel)]="nuevaClave" [type]="verPasswordNueva  ? 'text' : 'password'">
+                    <a class="ocultarmostrar-clave" matSuffix type="button"
+                        (click)="verPasswordNueva  = !verPasswordNueva ">
+                        <mat-icon> {{ verPasswordNueva ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </a>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Confirmar contraseña</mat-label>
+                    <input matInput [(ngModel)]="confirmarClave" [type]="verPasswordNueva  ? 'text' : 'password'">
+                    <a class="ocultarmostrar-clave" matSuffix type="button"
+                        (click)="verPasswordNueva  = !verPasswordNueva ">
+                        <mat-icon> {{ verPasswordNueva ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </a>
+                </mat-form-field>
+
+            </mat-dialog-content>
+        </div>
+
+
+        <!-- CREAR USUARIO -->
+
+        <div class="crear-usuario" *ngIf="modoCrearUsuario">
+
+            <mat-dialog-content class="form-grid">
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput [(ngModel)]="nuevoUsuario.nombre" required>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Usuario</mat-label>
+                    <input matInput [(ngModel)]="nuevoUsuario.usuario" required>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput [type]="verPasswordNueva ? 'text' : 'password'" [(ngModel)]="nuevoUsuario.clave"
+                        required>
+                    <a class="ocultarmostrar-clave" matSuffix (click)="verPasswordNueva = !verPasswordNueva">
+                        <mat-icon>{{ verPasswordNueva ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </a>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Rol</mat-label>
+                    <mat-select [(ngModel)]="nuevoUsuario.rol">
+                        <mat-option *ngFor="let rol of roles" [value]="rol.id">
+                            {{ rol.nombre }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+            </mat-dialog-content>
+
+        </div>
+    </div>
+
+    <!--  ACCION BUSCAR, CREAR, CERRAR -->
+    <div class="acciones-usuario">
+        <!-- BUSCAR SOLO EN LISTA -->
+        <div class="buscador" *ngIf="!editando && !modoPassword && !modoCrearUsuario">
+            <span class="icono">
+                <mat-icon>search</mat-icon>
+            </span>
+            <input type="text" placeholder="Nombre o Usuario" [(ngModel)]="filtro">
+        </div>
+
+        <!-- LISTA -->
+        <a *ngIf="!editando && !modoPassword && !modoCrearUsuario && permisoModuloService.puede('usuarios', 'crear')" (click)="crearUsuario()" >
+            <mat-icon>person_add</mat-icon>
+            Crear
+        </a>
+
+        <!-- CREAR NUEVO -->
+        <a *ngIf="modoCrearUsuario" (click)="guardarNuevoUsuario()">
+            <mat-icon>how_to_reg</mat-icon>
+            Guardar usuario
+        </a>
+
+        <!-- EDITAR -->
+        <a *ngIf="editando && !modoPassword" (click)="guardarUsuario()">
+            <mat-icon>how_to_reg</mat-icon>
+            Guardar
+        </a>
+
+        <!-- PASSWORD -->
+        <a *ngIf="modoPassword" (click)="guardarPassword()">
+            <mat-icon>how_to_reg</mat-icon>
+            Guardar clave
+        </a>
+        <!-- CANCELAR / CERRAR -->
+        <a (click)="accionCancelar()">
+            <mat-icon>
+                {{ (!editando && !modoPassword && !modoCrearUsuario) ? 'close' : 'cancel' }}
+            </mat-icon>
+            {{ (editando || modoPassword || modoCrearUsuario) ? 'Cancelar' : 'Cerrar' }}
+        </a>
+
+    </div>
+
+
+</div>
+
+
+
+
+<!-- Modal de Confirmación -->
+<div class="mostrar-modal" *ngIf="mostrarModal">
+    <div class="modal">
+        <h2>El usuario <strong>{{ usuarioAEliminar?.usuario }}</strong> será eliminado permanentemente.</h2>
+        <hr>
+        <h2>¿Estás seguro?</h2>
+        <div class="modal-botones">
+            <button class="cancel-button" (click)="cancelarEliminacion()">Cancelar</button>
+            <button class="confirm-button" (click)="eliminarUsuario()">Eliminar</button>
+        </div>
+    </div>
+</div>

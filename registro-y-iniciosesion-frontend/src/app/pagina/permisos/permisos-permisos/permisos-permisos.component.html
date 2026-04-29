@@ -1,0 +1,301 @@
+<div class="permiso-dialog">
+
+    <div class="cabezera">
+        <div class="titulo">
+            <mat-icon>select_all</mat-icon>
+            <h2>
+                {{
+                modoCrearPermiso ? 'Crear permiso' :
+                editando ? 'Editar permiso' :
+                verPermisosxRol ? 'Permisos x Rol':
+                'Permisos'
+                }}
+            </h2>
+        </div>
+    </div>
+
+    <div class="listar-permisos">
+
+        <!----------------------->
+        <!-- LISTA DE PERMISOS -->
+        <!----------------------->
+        <div class="lista" *ngIf="!editando && !modoCrearPermiso && !verPermisosxRol">
+            <div class="item" *ngFor="let permiso of permisosFiltrados">
+
+                <div class="info">
+                    <div class="campo">
+                        <span class="label">Modulo</span>
+                        <span class="valor">{{ permiso.modulo | titlecase }}</span>
+                    </div>
+
+                    <div class="campo">
+                        <span class="label">Accion</span>
+                        <span class="valor">{{ permiso.accion | titlecase }}</span>
+                    </div>
+                </div>
+
+                <div class="cantidad" (click)="verRolesPorPermiso(permiso)">
+                    <span class="nombre-cantidad">En Uso:</span>
+                    <span class="permiso-cantidad">{{ permiso.cantidadRoles ?? 0 }}</span>
+                    <!-- <span class="permiso-cantidad">{{ permiso.cantidadUsuarios ?? 0 }}</span> -->
+                </div>
+
+                <div class="acciones">
+                    <a class="editar" (click)="editarPermiso(permiso)"
+                        *ngIf="permisoModuloService.puede('permisos', 'editar')">
+                        <mat-icon>edit</mat-icon>
+                    </a>
+
+                    <a class="eliminar" (click)="confirmarEliminacionPermiso(permiso)"
+                        *ngIf="permisoModuloService.puede('permisos', 'eliminar')">
+                        <mat-icon>delete</mat-icon>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!----------------------->
+        <!---- EDITAR PERMISO --->
+        <!----------------------->
+        <div class="editar-permiso" *ngIf="editando">
+            <div class="form-grid">
+
+                <!-- Selector de Módulo -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Modulo</mat-label>
+                    <input type="text" matInput [(ngModel)]="permisoSeleccionado.modulo"
+                        [matAutocomplete]="autoModuloEditar" (input)="filtrarModulosEditar()" (focus)="limpiarError()"
+                        placeholder="Ejemplo: equipos, impresoras, celulares, etc">
+
+                    <mat-autocomplete #autoModuloEditar="matAutocomplete">
+                        <mat-option *ngFor="let modulo  of modulosFiltradosEditar" [value]="modulo">
+                            <div class="sugerencia-option">
+                                <mat-icon>folder</mat-icon>
+                                <span>{{ modulo | titlecase }}</span>
+                                <small class="ya-existe"> - Ya existe</small>
+                            </div>
+                        </mat-option>
+                        <mat-option *ngIf="modulosFiltradosEditar.length === 0 && buscarModuloEditarActivo" disabled>
+                            No hay módulos coincidentes. Se creará uno nuevo.
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <!-- Selector de Acción -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Accion</mat-label>
+                    <input type="text" matInput [(ngModel)]="permisoSeleccionado.accion"
+                        [matAutocomplete]="autoModuloEditar" (input)="filtrarAccionesEditar()" (focus)="limpiarError()"
+                        placeholder="Ejemplo: ver, crear, editar, eliminar">
+
+                    <mat-autocomplete #autoModuloEditar="matAutocomplete">
+                        <mat-option *ngFor="let accion   of accionesFiltradasEditar" [value]="accion">
+                            <div class="sugerencia-option">
+                                <mat-icon>folder</mat-icon>
+                                <span>{{ accion | titlecase }}</span>
+                                <small class="ya-existe"> - Ya existe</small>
+                                <small class="nueva" *ngIf="!existeAccionEnEdicion(accion)"> - Nueva</small>
+                            </div>
+                        </mat-option>
+                        <mat-option *ngIf="accionesFiltradasEditar.length === 0 && buscarAccionEditarActivo" disabled>
+                            No hay módulos coincidentes. Se creará uno nuevo.
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <!-- Mensaje de error - FIJO hasta que se cambie -->
+                <div class="error-mensaje" *ngIf="mensajeError">
+                    <mat-icon>warning</mat-icon>
+                    {{ mensajeError }}
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+        <!----------------------->
+        <!----- CREAR USUARIO --->
+        <!----------------------->
+        <div class="crear-permiso" *ngIf="modoCrearPermiso">
+            <div class="form-grid">
+
+                <!-- Selector de Módulo -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Modulo</mat-label>
+                    <mat-select [(ngModel)]="nuevoPermiso.modulo" (selectionChange)="limpiarError()" required>
+                        <mat-option *ngFor="let modulo of modulosDisponibles" [value]="modulo">
+                            {{ modulo | titlecase }}
+                        </mat-option>
+                        <mat-option value="otro">+ Crear Nuevo Modulo</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <!-- Input para módulo nuevo -->
+                <mat-form-field appearance="outline" *ngIf="nuevoPermiso.modulo === 'otro'">
+                    <mat-label>Nuevo Modulo</mat-label>
+                    <input type="text" matInput [(ngModel)]="nuevoPermiso.moduloNuevo"
+                        [matAutocomplete]="autoModuloNuevo" (input)="filtrarModulosNuevos()"
+                        placeholder="Ejemplo: productos, categorias, etc">
+
+                    <mat-autocomplete #autoModuloNuevo="matAutocomplete">
+                        <mat-option *ngFor="let modulo of modulosFiltradosNuevos" [value]="modulo">
+                            <div class="sugerencia-option">
+                                <mat-icon>folder</mat-icon>
+                                <span>{{ modulo | titlecase }}</span>
+                                <small class="ya-existe"> - Ya existe</small>
+                            </div>
+                        </mat-option>
+                        <mat-option *ngIf="modulosFiltradosNuevos.length === 0 && buscarModuloNuevoActivo" disabled>
+                            No hay módulos coincidentes. Se creará uno nuevo.
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <!-- Selector de Acción -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Accion</mat-label>
+                    <mat-select [(ngModel)]="nuevoPermiso.accion" (selectionChange)="limpiarError()" required>
+                        <mat-option *ngFor="let accion of accionesDisponibles" [value]="accion">
+                            {{ accion | titlecase }}
+                        </mat-option>
+                        <mat-option value="otro">+ Crear Nueva Accion</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <!-- Input para acción nueva -->
+                <mat-form-field appearance="outline" *ngIf="nuevoPermiso.accion === 'otro'">
+                    <mat-label>Nueva Acción</mat-label>
+                    <input type="text" matInput [(ngModel)]="nuevoPermiso.accionNueva"
+                        [matAutocomplete]="autoAccionNueva" (input)="filtrarAccionesPorModulo()"
+                        placeholder="Ejemplo: ver, crear, editar, eliminar">
+
+                    <mat-autocomplete #autoAccionNueva="matAutocomplete">
+                        <mat-option *ngFor="let accion of accionesDisponiblesPorModulo" [value]="accion">
+                            <div class="sugerencia-option">
+                                <mat-icon>lightbulb</mat-icon>
+                                <span>{{ accion | titlecase }}</span>
+                                <small class="ya-existe" *ngIf="existeAccionEnModulo(accion)"> - Ya existe</small>
+                                <small class="nueva" *ngIf="!existeAccionEnModulo(accion)"> - Nueva</small>
+                            </div>
+                        </mat-option>
+                        <mat-option *ngIf="accionesDisponiblesPorModulo.length === 0 && buscarAccionActivo" disabled>
+                            No hay acciones similares. Se creará una nueva.
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <!-- Mensaje de error - FIJO hasta que se cambie -->
+                <div class="error-mensaje" *ngIf="mensajeError">
+                    <mat-icon>warning</mat-icon>
+                    {{ mensajeError }}
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+        <!------------------------------>
+        <!-- VER PERMISOS POR USUARIO -->
+        <!------------------------------>
+        <div class="usuarioxpermiso" *ngIf="verPermisosxRol">
+            <div class="usuario-item" *ngFor="let rol of rolesPorPermiso">
+
+                <div class="info">
+                    <div class="detalles">
+                        <span class="nombre">
+                            <mat-icon>admin_panel_settings</mat-icon>
+                            {{ rol.nombre | titlecase }}
+                        </span>
+                        <span class="cantidad-usuarios">
+                            <mat-icon>people</mat-icon>
+                            {{ rol.cantidadUsuarios }} Usuario{{ rol.cantidadUsuarios !== 1 ? 's' : '' }}
+                        </span>
+                        <span class="permiso-info">
+                            <mat-icon>lock</mat-icon>
+                            {{ permisoSeleccionado?.modulo | titlecase }} - {{ permisoSeleccionado?.accion | titlecase
+                            }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sin-usuarios" *ngIf="rolesPorPermiso.length === 0">
+                <mat-icon>info</mat-icon>
+                <span>Este permiso no está asignado a ningún rol</span>
+            </div>
+        </div>
+
+
+
+
+
+        <!----------------------------------->
+        <!--  ACCION BUSCAR, CREAR, CERRAR -->
+        <!----------------------------------->
+        <div class="acciones-permisos">
+            <!-- BUSCAR SOLO EN LISTA -->
+            <div class="buscador" *ngIf="!editando && !modoCrearPermiso && !verPermisosxRol">
+                <span class="icono">
+                    <mat-icon>search</mat-icon>
+                </span>
+                <input type="text" placeholder="Modulo y/o Accion" [(ngModel)]="filtro">
+            </div>
+
+            <!-- LISTA -->
+            <a *ngIf="!editando && !modoCrearPermiso && !verPermisosxRol && permisoModuloService.puede('permisos', 'crear')"
+                (click)="crearPermisos()">
+                <mat-icon>control_point</mat-icon>
+                Crear
+            </a>
+
+            <!-- CREAR NUEVO -->
+            <a *ngIf="modoCrearPermiso" (click)="verificarYCrearPermiso()">
+                <mat-icon>done_all</mat-icon>
+                Guardar permiso
+            </a>
+
+            <!-- EDITAR -->
+            <a *ngIf="editando" (click)="guardarPermiso()">
+                <mat-icon>save</mat-icon>
+                Guardar
+            </a>
+
+            <!-- VOLVER -->
+            <a *ngIf="verPermisosxRol" (click)="volverListaPermisos()">
+                <mat-icon>keyboard_backspace</mat-icon>
+                Volver
+            </a>
+
+            <!-- CANCELAR / CERRAR -->
+            <a (click)="accionCancelar()">
+                <mat-icon>
+                    {{ (!editando && !modoCrearPermiso) ? 'close' : 'cancel' }}
+                </mat-icon>
+                {{ (editando || modoCrearPermiso) ? 'Cancelar' : 'Cerrar' }}
+            </a>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+<!-- Modal de Confirmación -->
+<div class="mostrar-modal" *ngIf="mostrarModal">
+    <div class="modal">
+        <h2><strong>{{ permisoAEliminar?.modulo | titlecase }} - {{ permisoAEliminar?.accion | titlecase }}</strong> será eliminado permanentemente.</h2>
+        <hr>
+        <h2>¿Estás seguro?</h2>
+        <div class="modal-botones">
+            <button class="cancel-button" (click)="cancelarEliminacion()">Cancelar</button>
+            <button class="confirm-button" (click)="eliminarPermiso()">Eliminar</button>
+        </div>
+    </div>
+</div>

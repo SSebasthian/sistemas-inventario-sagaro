@@ -1,0 +1,93 @@
+<div class="perfil">
+
+    <div class="menu-lateral">
+
+        <button class="btn-accion" (click)="permisosPerfil()" matTooltip="Editar Perfil" matTooltipPosition="left"
+            matTooltipHideDelay="100">
+            <mat-icon>assignment_ind</mat-icon>
+        </button>
+
+        <button class="btn-accion" *ngIf="permisoModuloService.puede('usuarios', 'ver')" (click)="permisosUsuarios()"
+            matTooltip="Usuarios" matTooltipPosition="left" matTooltipHideDelay="100">
+            <mat-icon>accessibility_new</mat-icon>
+        </button>
+
+        <button class="btn-accion" *ngIf="permisoModuloService.puede('roles', 'ver')" (click)="permisosRol()"
+            matTooltip="Rol" matTooltipPosition="left" matTooltipHideDelay="100">
+            <mat-icon>assignment_turned_in</mat-icon>
+        </button>
+
+        <button class="btn-accion" *ngIf="permisoModuloService.puede('permisos', 'ver')" (click)="permisosPermisos()"
+            matTooltip="Permisos" matTooltipPosition="left" matTooltipHideDelay="100">
+            <mat-icon>lock_person </mat-icon>
+        </button>
+
+        <button class="btn-accion" *ngIf="permisoModuloService.puede('permisos', 'asignar')" (click)="permisosxRol()"
+            matTooltip="Permisos por Rol" matTooltipPosition="left" matTooltipHideDelay="100">
+            <mat-icon>verified_user </mat-icon>
+        </button>
+
+    </div>
+
+    <div class="tarjeta">
+        <div class="tarjeta__cuerpo">
+            <div class="tarjeta__cabeza">
+                <strong>{{Usuario?.nombre}}</strong>
+            </div>
+
+            <p class="tarjeta__rol">
+                <strong>Rol: </strong>
+                <span class="rol">{{Usuario?.rol?.nombre}}</span>
+            </p>
+
+
+            <div class="tarjeta__permisos">
+                <hr>
+                <p><strong>Permisos:</strong></p>
+
+                <!-- MODULOS -->
+                <div class="modulos">
+                    <button class="btn" [class.active]="moduloSeleccionado === modulo.key"
+                        *ngFor="let modulo of permisosAgrupados | keyvalue: ordenarModulos"
+                        (click)="seleccionarModulo(modulo.key)">
+                        {{ modulo.key | titlecase }}
+                    </button>
+                </div>
+
+                <!-- ACCIONES -->
+                <div class="acciones">
+                    <br>
+                    <div class="acciones-grid" *ngIf="moduloSeleccionado">
+                        <a class="nombre-accion" *ngFor="let accion of accionesFiltradas">
+                            <mat-icon>done_all</mat-icon>
+                            {{ accion | titlecase }}
+                        </a>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+
+        <div class="card__ribbon">
+            <label class="card__ribbon-label">
+                <mat-icon> person_pin</mat-icon>
+            </label>
+            <button class="btn-logout-icon" (click)="confirmarCierreSesion()" matTooltip="Cerrar sesión"
+                matTooltip="Cerrar sesión" matTooltipPosition="below" matTooltipHideDelay="100">
+                <mat-icon>logout</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal de Confirmación -->
+<div class="mostrar-modal" *ngIf="mostrarModal">
+    <div class="modal">
+        <h2>¿Estás seguro?</h2><br>
+        <div class="modal-botones">
+            <button class="cancel-button" (click)="cancelarCierreSesion()">Cancelar</button>
+            <button class="confirm-button" (click)="cerrarSesion()">Cerrar Sesion</button>
+        </div>
+    </div>
+</div>

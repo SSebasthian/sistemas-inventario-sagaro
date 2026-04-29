@@ -1,0 +1,393 @@
+.usuarios-dialog {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.cabezera {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 20px;
+    border: 1px solid #c4b9b9;
+}
+
+.titulo {
+    display: flex;
+    align-items: center;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.titulo h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #595959;
+}
+
+.titulo mat-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+    color: #595959;
+}
+
+
+
+
+
+
+.permisos-dialog {
+    display: flex;
+    flex-direction: column;
+}
+
+.listar-usuarios {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+/* LISTA */
+.listar-usuarios .lista {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.listar-usuarios .usuario-item {
+    display: grid;
+    grid-template-columns: 2fr 1fr auto;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #c4b9b9;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.listar-usuarios .usuario-item:hover {
+    background: #f7f8fc;
+}
+
+.listar-usuarios .info {
+    display: flex;
+    flex-direction: column;
+}
+
+.listar-usuarios .nombre {
+    font-weight: 600;
+}
+
+.listar-usuarios .usuario {
+    font-size: 13px;
+    color: #777;
+}
+
+.listar-usuarios .rol {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    background: #3f51b5;
+    color: #fff;
+    width: fit-content;
+}
+
+
+.listar-usuarios .estado span {
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.listar-usuarios .activo {
+    background: #e6f4ea;
+    color: #2e7d32;
+}
+
+.listar-usuarios .inactivo {
+    background: #fdecea;
+    color: #c62828;
+}
+
+/* ACCIONES */
+.listar-usuarios .acciones {
+    display: flex;
+    gap: 5px;
+}
+
+.listar-usuarios .acciones a {
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.listar-usuarios .acciones .editar {
+    background: #393e7f;
+}
+
+.listar-usuarios .acciones .editar:hover {
+    background: #1f2148;
+}
+
+.listar-usuarios .acciones .eliminar {
+    background: #c62828;
+}
+
+.listar-usuarios .acciones .eliminar:hover {
+    background: #681414;
+}
+
+
+/*SCROLL*/
+
+.listar-usuarios .lista {
+    max-height: 285px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* opcional: estilo bonito del scroll */
+.listar-usuarios .lista::-webkit-scrollbar {
+    width: 6px;
+}
+
+.listar-usuarios .lista::-webkit-scrollbar-thumb {
+    background: #c5c5c5;
+    border-radius: 10px;
+}
+
+.listar-usuarios .lista::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+
+
+
+/*EDITAR USUARIO*/
+
+.editar-usuario {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.editar-usuario .form-grid,
+.editar-usuario-clave .form-grid,
+.crear-usuario .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.editar-usuario .boton-clave,
+.editar-usuario .ocultarmostrar-clave,
+.editar-usuario-clave .boton-clave,
+.editar-usuario-clave .ocultarmostrar-clave,
+.crear-usuario .ocultarmostrar-clave {
+    position: absolute;
+    margin-left: -35px;
+    margin-top: -14px;
+    cursor: pointer;
+    color: #393e7f;
+}
+
+.editar-usuario .acciones {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.editar-usuario .acciones a {
+    background: #393e7f;
+    color: white;
+    border: none;
+    padding: 10px 13px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+
+.editar-usuario .acciones a:hover {
+    background: #1f2148;
+}
+
+.editar-usuario .toggle-activo {
+    grid-column: span 2;
+    /* ocupa toda la fila */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5px;
+    border: 1px solid #c4b9b9;
+    border-radius: 8px;
+    background: #f7f8fc;
+}
+
+.editar-usuario .toggle-activo span {
+    font-weight: 500;
+    color: #595959;
+}
+
+
+
+
+
+
+
+
+/* ACCION BOTONES */
+.acciones-usuario {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 0 0 20px 0;
+    flex-wrap: wrap;
+}
+
+.acciones-usuario a {
+    background: #393e7f;
+    color: white;
+    border: none;
+    padding: 10px 13px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.acciones-usuario a:hover {
+    background: #1f2148;
+}
+
+.buscador {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 200px;
+    flex-shrink: 0;
+}
+
+.buscador input {
+    width: 100%;
+    height: 40px;
+    padding: 0 12px 0 35px;
+    border: 1px solid #a8a9c0;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+}
+
+/* focus */
+.buscador input:focus {
+    border-color: #393e7f;
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(57, 62, 127, 0.1);
+}
+
+/* icono */
+.buscador .icono {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #393e7f;
+}
+
+.buscador .icono mat-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+}
+
+
+
+
+/* Estilos generales del modal */
+.mostrar-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.425);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.mostrar-modal .modal {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    width: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.418);
+    text-align: center;
+}
+
+.mostrar-modal .modal h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #595959;
+}
+
+.mostrar-modal .modal h2 strong {
+    font-size: 20px;
+    color: #c23232d5;
+}
+
+.mostrar-modal .modal hr{
+    margin: 15px 0;
+}
+
+.mostrar-modal .modal-botones {
+    display: flex;
+    justify-content: space-between;
+}
+
+.mostrar-modal .cancel-button,
+.mostrar-modal .confirm-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.mostrar-modal .cancel-button:hover,
+.mostrar-modal .confirm-button:hover {
+    opacity: 0.9;
+}
+
+.mostrar-modal .cancel-button {
+    background: #393e7f;
+}
+
+.mostrar-modal .confirm-button {
+    background: #c23232d5;
+}

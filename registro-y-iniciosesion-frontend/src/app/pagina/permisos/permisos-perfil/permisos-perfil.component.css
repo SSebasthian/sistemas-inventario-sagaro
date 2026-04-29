@@ -1,0 +1,83 @@
+.perfil-dialog {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.cabezera {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 20px;
+    border: 1px solid #c4b9b9;
+}
+
+.titulo {
+    display: flex;
+    align-items: center;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.titulo h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #595959;
+}
+
+.titulo mat-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+    color: #595959;
+}
+
+.body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.boton-clave,
+.ocultarmostrar-clave {
+    position: absolute;
+    margin-left: -35px;
+    margin-top: -14px;
+    cursor: pointer;
+    color: #393e7f;
+}
+
+.acciones {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.acciones a {
+    background: #393e7f;
+    color: white;
+    border: none;
+    padding: 10px 13px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+
+.acciones a:hover {
+    background: #1f2148;
+}

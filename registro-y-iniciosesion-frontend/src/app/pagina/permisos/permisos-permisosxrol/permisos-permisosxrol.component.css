@@ -1,0 +1,339 @@
+/* ============================================ */
+/* CONTENEDOR PRINCIPAL DEL DIÁLOGO             */
+/* ============================================ */
+
+.permisosxrol-dialog {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================ */
+/* CABECERA                                     */
+/* ============================================ */
+
+.cabezera {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 20px;
+    border: 1px solid #c4b9b9;
+}
+
+.titulo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.titulo h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #595959;
+}
+
+.titulo mat-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+    color: #595959;
+}
+
+
+/* ============================================ */
+/* CONTENIDO PRINCIPAL                          */
+/* ============================================ */
+
+.contenido-principal {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 15px;
+    gap: 0px;
+}
+
+
+/* ============================================ */
+/* SELECTOR DE ROL                              */
+/* ============================================ */
+
+.selector-rol {
+    padding: 0 10px;
+}
+
+.rol-select {
+    width: 100%;
+}
+
+
+/* ============================================ */
+/* LISTA DE PERMISOS (GRID)                     */
+/* ============================================ */
+
+.lista {
+    flex: 1;
+    max-height: 290px;
+    overflow-y: auto;
+    padding: 5px 10px; 
+    margin-top: -10px;
+}
+
+/* Scroll personalizado */
+.lista::-webkit-scrollbar {
+    width: 6px;
+}
+
+.lista::-webkit-scrollbar-thumb {
+    background: #c5c5c5;
+    border-radius: 10px;
+}
+
+.lista::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+/* ============================================ */
+/* TARJETA DE CADA PERMISO                      */
+/* ============================================ */
+
+.permiso-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #c4b9b9;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: 0.2s;
+}
+
+.permiso-item:hover {
+    background: #f7f8fc;
+}
+
+
+/* ============================================ */
+/* INFORMACIÓN DEL PERMISO (Modulo + Accion)    */
+/* ============================================ */
+
+.info-permiso {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+    flex: 1;
+}
+
+.info-permiso .campo {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-permiso .label {
+    justify-self: start;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: #393e7f;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    width: fit-content;
+}
+
+.info-permiso .valor {
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 500;
+    color: #2f2f2f;
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+
+/* ============================================ */
+/* ROLES ASIGNADOS (Badges)                     */
+/* ============================================ */
+
+
+.roles-asignados {
+    text-align: right;
+    width: 290px;
+    height: 35px;
+    overflow: hidden;
+}
+
+.roles-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.badge.asignado {
+    background: #e6f4ea;
+    color: #2e7d32;
+}
+
+.badge mat-icon {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+}
+
+/* Resumen cuando no hay roles asignados */
+.resumen-roles {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: #f5f5f5;
+    border-radius: 20px;
+    color: #999;
+    font-size: 11px;
+    font-weight: 500;
+    border: 1px dashed #ddd;
+    transition: all 0.2s ease;
+}
+
+
+.resumen-roles mat-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+}
+
+
+/* ============================================ */
+/* SLIDE-TOGGLE (Asignación de permisos)       */
+/* ============================================ */
+
+.asignacion {
+    min-width: 120px;
+    text-align: right;
+}
+
+
+/* ============================================ */
+/* MENSAJE DE "NO HAY PERMISOS"                 */
+/* ============================================ */
+
+.sin-permisos {
+    position: absolute;
+    top: 50%;            /*  Centrar verticalmente */
+    left: 50%;           /*  Centrar horizontalmente */
+    transform: translate(-50%, -50%);  /*  Ajuste perfecto del centro */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    color: #777;
+    border-radius: 10px;
+    z-index: 10;
+    white-space: nowrap; /*  Evita que se rompa en varias líneas */
+}
+
+/* ============================================ */
+/* BOTONES DE ACCIÓN                            */
+/* ============================================ */
+
+.acciones-permisosxrol {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 0 0 15px 0;
+}
+
+.acciones-permisosxrol a {
+    background: #393e7f;
+    color: white;
+    border: none;
+    padding: 7px 13px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.acciones-permisosxrol a:hover {
+    background: #1f2148;
+}
+
+/* Botón Guardar deshabilitado */
+.acciones-permisosxrol a.disabled {
+    background: #999;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.acciones-permisosxrol a.disabled:hover {
+    background: #999;
+}
+    
+
+/* ============================================ */
+/* BUSCADOR                                     */
+/* ============================================ */
+
+.buscador {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 200px;
+}
+
+.buscador input {
+    width: 100%;
+    height: 36px;
+    padding: 0 15px 0 35px;
+    border: 1px solid #a8a9c0;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+}
+
+.buscador input:focus {
+    border-color: #393e7f;
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(57, 62, 127, 0.1);
+}
+
+.buscador .icono {
+    position: absolute;
+    left: 5px;
+    top: 60%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #393e7f;
+}
+
+.buscador .icono mat-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+}
+
+
+
+

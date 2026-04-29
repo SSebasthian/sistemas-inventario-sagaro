@@ -1,0 +1,110 @@
+<div class="permisosxrol-dialog">
+
+    <!-- ========================================== -->
+    <!-- CABECERA DEL DIÁLOGO                        -->
+    <!-- ========================================== -->
+    <div class="cabezera">
+        <div class="titulo">
+            <mat-icon>assignment_ind</mat-icon>
+            <h2>Asignar Permisos a Rol</h2>
+        </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- CONTENIDO PRINCIPAL                         -->
+    <!-- ========================================== -->
+    <div class="contenido-principal">
+
+        <!-- SELECTOR DE ROL -->
+        <div class="selector-rol" >
+            <mat-form-field appearance="outline" class="rol-select">
+                <mat-label>Seleccionar Rol</mat-label>
+                <mat-select [(ngModel)]="rolSeleccionado" (selectionChange)="onRolChange()">
+                    <mat-option [value]="null">-- Seleccionar rol --</mat-option>
+                    <mat-option *ngFor="let rol of roles" [value]="rol">
+                        {{ rol.nombre | titlecase }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <!-- LISTA DE PERMISOS -->
+        <div class="lista">
+            <div class="permiso-item" *ngFor="let permiso of permisosFiltrados">
+
+                <!-- INFORMACIÓN DEL PERMISO (Módulo + Acción) -->
+                <div class="info-permiso">
+                    <div class="campo">
+                        <span class="label">Módulo</span>
+                        <span class="valor">{{ permiso.modulo | titlecase }}</span>
+                    </div>
+                    <div class="campo">
+                        <span class="label">Acción</span>
+                        <span class="valor">{{ permiso.accion | titlecase }}</span>
+                    </div>
+                </div>
+
+                <!-- SIN ROL SELECCIONADO: Mostrar roles que tienen este permiso -->
+                <div class="roles-asignados" *ngIf="!rolSeleccionado">
+                    <div class="roles-badges">
+                        <ng-container *ngIf="obtenerRolesConPermiso(permiso).length > 0">
+                            <span class="badge asignado" *ngFor="let rol of obtenerRolesConPermiso(permiso)"
+                                [matTooltip]="getTooltipRol(rol.nombre)" matTooltipPosition="above">
+                                {{ getNombreCortoRol(rol.nombre) }}
+                                <mat-icon>check_circle</mat-icon>
+                            </span>
+                        </ng-container>
+                    </div>
+                    <div class="resumen-roles" *ngIf="obtenerRolesConPermiso(permiso).length === 0">
+                        <span>Sin Asignar</span>
+                        <mat-icon>info</mat-icon>
+                    </div>
+                </div>
+
+                <!-- CON ROL SELECCIONADO: Mostrar slide-toggle -->
+                <div class="asignacion" *ngIf="rolSeleccionado">
+                    <mat-slide-toggle [(ngModel)]="permiso.asignado" (change)="onToggleChange()">
+                        {{ permiso.asignado ? 'Asignado' : 'No asignado' }}
+                    </mat-slide-toggle>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- MENSAJE CUANDO NO HAY PERMISOS -->
+    <div class="sin-permisos" *ngIf="permisosFiltrados.length === 0">
+        <mat-icon>info</mat-icon>
+        <span>No hay permisos disponibles</span>
+    </div>
+</div>
+
+
+
+<!-- ========================================== -->
+<!-- BOTONES DE ACCIÓN (fuera del diálogo)      -->
+<!-- ========================================== -->
+<div class="acciones-permisosxrol">
+
+
+    <!-- BUSCADOR DE PERMISOS -->
+    <div class="buscador">
+        <span class="icono">
+            <mat-icon>search</mat-icon>
+        </span>
+        <input type="text" placeholder="Buscar permiso" [(ngModel)]="filtro">
+    </div>
+
+    <!-- BOTÓN GUARDAR (solo visible cuando hay cambios) -->
+    <a (click)="guardarCambios()" [class.disabled]="!hayCambios">
+        <mat-icon>save</mat-icon>
+        Guardar
+    </a>
+
+    <!-- BOTÓN CERRAR -->
+    <a (click)="accionCancelar()">
+        <mat-icon>close</mat-icon>
+        Cerrar
+    </a>
+</div>
