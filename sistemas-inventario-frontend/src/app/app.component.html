@@ -1,3 +1,23 @@
-<app-menu />
+<div class="header-superior">
+  <div class="menu-izquierda">
+    <a (click)="menuMinMax()" class="boton-menu-header">
+      <mat-icon>menu</mat-icon>
+    </a>
+    <span>Menu</span>
+  </div>
+  <div class="menu-derecha">
+    <span class="nombre-usuario">DEPARTAMENTO SISTEMAS</span>
+  </div>
+</div>
 
-<router-outlet />
+<!-- Contenedor principal con menú lateral y contenido (debajo del header) -->
+<div class="contenido-principal">
+  <div class="contenido-inventario-sistemas" [class.menu-minimizado]="menuMinimizado">
+    <div class="menu">
+      <app-menu></app-menu>
+    </div>
+    <div class="pagina-dinamica">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
